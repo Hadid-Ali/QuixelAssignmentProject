@@ -135,6 +135,8 @@ public class MeshOperation : MonoBehaviour
         if (this.directionalLight)
         {
             this.directionalLight.intensity += this.senstivity * Input.GetAxis("Mouse ScrollWheel") * Time.deltaTime;
+            this.directionalLight.intensity = Mathf.Clamp(this.directionalLight.intensity, HUD.instance.lightSlider.minValue, HUD.instance.lightSlider.maxValue);
+            HUD.instance.lightSlider.value = this.directionalLight.intensity;
         }
     }
 }
