@@ -96,11 +96,9 @@ public class MeshOperation : MonoBehaviour
             this.PolyGons.Add(halfPoly1);
         }
 
-       Destroy(this.meshFilter.gameObject);
-        //Time.timeScale = 0.2f;
-        //yield return new WaitForSeconds(0.8f);
-        //Time.timeScale = 1.0f;
-     //   Destroy(gameObject);
+        //this.meshFilter.combin
+
+       //Destroy(this.meshFilter.gameObject);
     }
 
 
