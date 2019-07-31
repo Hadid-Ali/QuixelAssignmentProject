@@ -9,6 +9,12 @@ public class HUD : MonoBehaviour
 
     public Slider lightSlider;
 
+    public void Toggle_BtnEvent()
+    {
+        if (BasicMeshOperations.instance)
+            BasicMeshOperations.instance.CreateCube();
+    }
+
     private void Awake()
     {
         instance = this;

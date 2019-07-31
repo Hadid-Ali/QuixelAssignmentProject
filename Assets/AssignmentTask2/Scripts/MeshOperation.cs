@@ -2,46 +2,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MeshOperation : MonoBehaviour
+public class MeshOperation : BasicMeshOperations
 {
-    public MeshFilter meshFilter;
-    public MeshRenderer meshRenderer;
-
     private List<GameObject> triangles = new List<GameObject>();
     public List<GameObject> PolyGons = new List<GameObject>();
 
-    public Light directionalLight;
-    [Range(10,100)]
-    public float senstivity = 10f;
-
-    // Start is called before the first frame update
-    void Start()
+    public override void Start()
     {
+        base.Start();
         this.ExtrudeMesh();
-       // this.meshFilter.mesh = this.CalculateSideExtrusion(this.meshFilter.mesh);
-    }
-
-    Mesh CalculateSideExtrusion(Mesh mesh)
-    {
-        List<int> indices = new List<int>(mesh.triangles);
-        int count = (mesh.vertices.Length / 2);
-        for (int i = 0; i < count; i++)
-        {
-            int i1 = i;
-            int i2 = (i1 + 1) % count;
-            int i3 = i1 + count;
-            int i4 = i2 + count;
-
-            indices.Add(i4);
-            indices.Add(i3);
-            indices.Add(i1);
-
-            indices.Add(i2);
-            indices.Add(i4);
-            indices.Add(i1);
-        }
-        mesh.triangles = indices.ToArray();
-        return mesh;
     }
 
     public void ExtrudeMesh()
@@ -84,6 +53,7 @@ public class MeshOperation : MonoBehaviour
             }
         }
         this.meshRenderer.enabled = false;
+        this.meshCollider.enabled = false;
 
         int j = 0;
 
@@ -105,38 +75,78 @@ public class MeshOperation : MonoBehaviour
        //Destroy(this.meshFilter.gameObject);
     }
 
+    public void ScaleSiblingParts(GameObject part1,GameObject part2,Vector3 hitNormal,float scaleSenstivity,float positionSenstivity)
+    {
+        List<GameObject> list = new List<GameObject>();
 
-    Vector3 normal = Vector3.zero;
-    Vector3 pos = Vector3.zero;
+        for(int i=0;i<this.PolyGons.Count;i++)
+        {
+            if (this.PolyGons[i] != part1 & this.PolyGons[i] != part2)
+            {
+                list.Add(this.PolyGons[i]);
+                this.PolyGons[i].transform.localScale += hitNormal * scaleSenstivity;
+                this.PolyGons[i].transform.position += hitNormal * positionSenstivity;
+            }
+        }
+
+    }
+
+    public float scaleSenstivity = 0.1f, positionSenstivity = 0.1f;
 
     // Update is called once per frame
-    void Update()
+    public override void Update()
     {
+        base.Update();
         if (Input.GetMouseButtonDown(0) & !Input.GetKey(KeyCode.LeftControl))
         {
             RaycastHit hit;
 
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
+            bool canHit = Physics.Raycast(ray, out hit, 100f);
+
+            //if(canHit)
+            //    this.ExtrudeMesh();
+
             if (Physics.Raycast(ray, out hit, 100f))
             {
                 this.pos = hit.transform.position;
                 this.normal = hit.normal;
 
-                hit.transform.position += hit.normal;
+                hit.transform.position += hit.normal * this.extrusionSenstivity;
+
+                RaycastHit u;
+
+                if(Physics.Raycast(hit.point,-hit.normal,out u))
+                {
+                    Debug.LogError(u.transform.gameObject);
+                    this.ScaleSiblingParts(hit.transform.gameObject, u.transform.gameObject, hit.normal, this.scaleSenstivity, this.positionSenstivity);
+                }
+
+                //CombineInstance[] instances = new CombineInstance[this.triangles.Count];
+
+                //for (int i = 0; i < instances.Length; i++)
+                //{
+                //    instances[i].mesh = this.triangles[i].GetComponent<MeshFilter>().mesh;
+                //    instances[i].transform = this.triangles[i].GetComponent<MeshRenderer>().transform.localToWorldMatrix;
+                //}
+
+                //for(int i=0;i<this.triangles.Count;i++)
+                //{
+                //    Destroy(this.triangles[i]);
+                //}
+
+
+                //Mesh m = new Mesh();
+                //m.CombineMeshes(instances, true, true);
+
+                //this.meshFilter.mesh = m;
             }
         }
 
         if (this.normal != Vector3.zero)
         {
             Debug.DrawRay(this.pos, this.normal * 10f, Color.red);
-        }
-
-        if (this.directionalLight)
-        {
-            this.directionalLight.intensity += this.senstivity * Input.GetAxis("Mouse ScrollWheel") * Time.deltaTime;
-            this.directionalLight.intensity = Mathf.Clamp(this.directionalLight.intensity, HUD.instance.lightSlider.minValue, HUD.instance.lightSlider.maxValue);
-            HUD.instance.lightSlider.value = this.directionalLight.intensity;
         }
     }
 }
