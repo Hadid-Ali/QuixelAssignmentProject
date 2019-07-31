@@ -10,11 +10,14 @@ public class MeshOperation : BasicMeshOperations
     public override void Start()
     {
         base.Start();
-        this.ExtrudeMesh();
+        //this.ExtrudeMesh();
     }
 
     public void ExtrudeMesh()
     {
+        this.triangles.Clear();
+        this.PolyGons.Clear();
+
         Mesh M = this.meshFilter.mesh;
         Vector3[] verts = M.vertices;
         Vector3[] normals = M.normals;
@@ -52,8 +55,8 @@ public class MeshOperation : BasicMeshOperations
                 this.triangles.Add(GO);
             }
         }
-        this.meshRenderer.enabled = false;
-        this.meshCollider.enabled = false;
+        //this.meshRenderer.enabled = false;
+        //this.meshCollider.enabled = false;
 
         int j = 0;
 
@@ -105,8 +108,8 @@ public class MeshOperation : BasicMeshOperations
 
             bool canHit = Physics.Raycast(ray, out hit, 100f);
 
-            //if(canHit)
-            //    this.ExtrudeMesh();
+            if (canHit)
+                this.ExtrudeMesh();
 
             if (Physics.Raycast(ray, out hit, 100f))
             {
@@ -123,24 +126,29 @@ public class MeshOperation : BasicMeshOperations
                     this.ScaleSiblingParts(hit.transform.gameObject, u.transform.gameObject, hit.normal, this.scaleSenstivity, this.positionSenstivity);
                 }
 
-                //CombineInstance[] instances = new CombineInstance[this.triangles.Count];
+                CombineInstance[] instances = new CombineInstance[this.triangles.Count];
 
-                //for (int i = 0; i < instances.Length; i++)
-                //{
-                //    instances[i].mesh = this.triangles[i].GetComponent<MeshFilter>().mesh;
-                //    instances[i].transform = this.triangles[i].GetComponent<MeshRenderer>().transform.localToWorldMatrix;
-                //}
+                for (int i = 0; i < instances.Length; i++)
+                {
+                    instances[i].mesh = this.triangles[i].GetComponent<MeshFilter>().mesh;
+                    instances[i].transform = this.triangles[i].GetComponent<MeshRenderer>().transform.localToWorldMatrix;
+                }
 
-                //for(int i=0;i<this.triangles.Count;i++)
-                //{
-                //    Destroy(this.triangles[i]);
-                //}
+                for (int i = 0; i < this.triangles.Count; i++)
+                {
+                    Destroy(this.triangles[i]);
+                }
 
 
-                //Mesh m = new Mesh();
-                //m.CombineMeshes(instances, true, true);
+                Mesh m = new Mesh();
+                m.CombineMeshes(instances, true, true);
 
-                //this.meshFilter.mesh = m;
+                this.meshFilter.mesh = m;
+
+                this.meshCollider.sharedMesh = m;
+
+                this.meshRenderer.enabled = true;
+                this.meshCollider.enabled = true;
             }
         }
 
