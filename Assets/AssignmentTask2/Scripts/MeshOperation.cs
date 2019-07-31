@@ -10,6 +10,10 @@ public class MeshOperation : MonoBehaviour
     private List<GameObject> triangles = new List<GameObject>();
     public List<GameObject> PolyGons = new List<GameObject>();
 
+    public Light directionalLight;
+    [Range(10,100)]
+    public float senstivity = 10f;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -118,12 +122,19 @@ public class MeshOperation : MonoBehaviour
             {
                 this.pos = hit.transform.position;
                 this.normal = hit.normal;
+
+                hit.transform.position += hit.normal;
             }
         }
 
-            if (this.normal != Vector3.zero)
-            {
-                Debug.DrawRay(this.pos, this.normal * 10f, Color.red);
-            }
+        if (this.normal != Vector3.zero)
+        {
+            Debug.DrawRay(this.pos, this.normal * 10f, Color.red);
+        }
+
+        if (this.directionalLight)
+        {
+            this.directionalLight.intensity += this.senstivity * Input.GetAxis("Mouse ScrollWheel") * Time.deltaTime;
+        }
     }
 }
