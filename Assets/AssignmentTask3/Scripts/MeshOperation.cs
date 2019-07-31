@@ -143,6 +143,8 @@ public class MeshOperation : BasicMeshOperations
                 Mesh m = new Mesh();
                 m.CombineMeshes(instances, true, true);
 
+                UnityEditor.MeshUtility.Optimize(m);
+
                 this.meshFilter.mesh = m;
 
                 this.meshCollider.sharedMesh = m;
