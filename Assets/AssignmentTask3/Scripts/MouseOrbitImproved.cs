@@ -23,6 +23,11 @@ public class MouseOrbitImproved : MonoBehaviour
     [SerializeField]
     float zoomFactor = 0.0f;
 
+    public KeyCode desiredKey = KeyCode.LeftControl;
+    public int mouseButtonIndex = 0;
+
+    public bool useZoom = true;
+
     // Use this for initialization
     void Start()
     {
@@ -32,16 +37,12 @@ public class MouseOrbitImproved : MonoBehaviour
         this.distance = 5f;
     }
 
-    private void Update()
-    {
-    }
-
     void LateUpdate()
     {
 
         if (target)
         {
-            if (Input.GetMouseButton(0) & Input.GetKey(KeyCode.RightAlt))
+            if (Input.GetMouseButton(1) & Input.GetKey(KeyCode.LeftControl) & this.useZoom)
             {
                 zoomFactor = Input.GetAxis("Mouse Y") * this.zoomSenstivity*Time.deltaTime;
             }
@@ -50,7 +51,7 @@ public class MouseOrbitImproved : MonoBehaviour
                 this.zoomFactor = 0;
             }
 
-            if (Input.GetMouseButton(0) & Input.GetKey(KeyCode.LeftControl))
+            if (Input.GetMouseButton(this.mouseButtonIndex) & Input.GetKey(this.desiredKey))
             {
                 x += Input.GetAxis("Mouse X") * xSpeed * distance * Time.deltaTime;
                 y -= Input.GetAxis("Mouse Y") * ySpeed * Time.deltaTime;

@@ -251,8 +251,10 @@ MonoBehaviour:
   meshCollider: {fileID: 0}
   directionalLight: {fileID: 42730626}
   senstivity: 50
-  extrusionSenstivity: 1
+  extrusionSenstivity: 0.3
   PolyGons: []
+  scaleSenstivity: 0.3
+  positionSenstivity: 0.15
 --- !u!4 &312220663
 Transform:
   m_ObjectHideFlags: 0
