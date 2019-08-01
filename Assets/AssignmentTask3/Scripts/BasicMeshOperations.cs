@@ -28,6 +28,7 @@ public class BasicMeshOperations : MonoBehaviour
     public virtual void Start()
     {
         this.CreateCube();
+        this.SetDirectionalLightValue();
     }
 
     public virtual void CreateCube()
@@ -44,6 +45,14 @@ public class BasicMeshOperations : MonoBehaviour
             DestroyImmediate(this.meshRenderer.GetComponent<BoxCollider>());
 
         this.meshCollider = G.AddComponent<MeshCollider>();
+    }
+
+    public void SetDirectionalLightValue()
+    {
+        if(this.directionalLight)
+        {
+            this.directionalLight.intensity = HUD.instance.lightSlider.value;
+        }
     }
 
     public virtual void Update()
