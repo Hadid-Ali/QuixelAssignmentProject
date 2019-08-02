@@ -5,75 +5,73 @@ using UnityEngine.UI;
 using System.Xml;
 using System.IO;
 
-public class XMLReader : MonoBehaviour
+namespace QuixelTest.SubtractionShaderAssignment
 {
-    public TextAsset xmlFile;
-    public Texture2D texture1, texture2;
-
-    public RenderTexture renderTexture1, renderTexture2;
-
-    public SimpleDelegate OnTexturesLoaded;
-
-    private byte[] textureData1, textureData2;
-    private string Data;
-
-    public Button button;
-
-    private void OnEnable()
+    public class XMLReader : MonoBehaviour
     {
-        this.OnTexturesLoaded += this.TexturesLoaded;
-    }
+        public TextAsset xmlFile;
+        public Texture2D texture1, texture2;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        this.Data = this.xmlFile.text;
-    }
+        public RenderTexture renderTexture1, renderTexture2;
 
-    public void LoadData()
-    {
-        this.ParseData(this.Data);
-    }
+        public SimpleDelegate OnTexturesLoaded;
 
-    void TexturesLoaded()
-    {
-        if(this.button)
+        private byte[] textureData1, textureData2;
+        [SerializeField] private string Data;
+
+        public Button button;
+
+        private void OnEnable()
         {
-            this.button.interactable = true;
+            this.OnTexturesLoaded += this.TexturesLoaded;
         }
-        Debug.Log("Textures Loaded Successfully");
-    }
+
+        public void LoadData()
+        {
+            this.ParseData(this.xmlFile.text);
+        }
+
+        void TexturesLoaded()
+        {
+            if (this.button)
+            {
+                this.button.interactable = true;
+            }
+            Debug.Log("Textures Loaded Successfully");
+        }
 
 
-    /// <summary>
-    /// Loading the Data from the given xml 
-    /// </summary>
-    /// <param name="data"></param>
-    public void ParseData(string data)
-    {
-        string textureLinkFormat = "//Textures/Texture";
-        XmlDocument xml = new XmlDocument();
-        xml.Load(new StringReader(data));
+        /// <summary>
+        /// Loading the Data from the given xml 
+        /// </summary>
+        /// <param name="data"></param>
+        public void ParseData(string data)
+        {
+            string textureLinkFormat = "//Textures/Texture";
 
-        XmlNodeList list = xml.SelectNodes(textureLinkFormat);
+            XmlDocument xml = new XmlDocument();
+            xml.Load(new StringReader(data));
 
-        this.texture1 = new Texture2D(1024, 1024);
-        this.texture2 = new Texture2D(1024, 1024);
+            XmlNodeList list = xml.SelectNodes(textureLinkFormat);
 
-        string tex1 = Application.dataPath + list[0].InnerText;
-        string tex2 = Application.dataPath + list[1].InnerText;
+            this.texture1 = new Texture2D(1024, 1024);
+            this.texture2 = new Texture2D(1024, 1024);
 
-        if (File.Exists(tex1)) 
-        this.textureData1 = File.ReadAllBytes(tex1);
-        if (File.Exists(tex2))
-            this.textureData2 = File.ReadAllBytes(tex2);
+            string tex1 = Application.dataPath + list[0].InnerText;
+            string tex2 = Application.dataPath + list[1].InnerText;
 
-        this.texture1.LoadImage(this.textureData1);
-        this.texture2.LoadImage(this.textureData2);
+            if (File.Exists(tex1))
+                this.textureData1 = File.ReadAllBytes(tex1);
+            if (File.Exists(tex2))
+                this.textureData2 = File.ReadAllBytes(tex2);
 
-        Graphics.Blit(this.texture1, this.renderTexture1);
-        Graphics.Blit(this.texture2, this.renderTexture2);
+            this.texture1.LoadImage(this.textureData1);
+            this.texture2.LoadImage(this.textureData2);
 
-        this.OnTexturesLoaded();
+            Graphics.Blit(this.texture1, this.renderTexture1);
+            Graphics.Blit(this.texture2, this.renderTexture2);
+
+            this.OnTexturesLoaded();
+        }
     }
 }

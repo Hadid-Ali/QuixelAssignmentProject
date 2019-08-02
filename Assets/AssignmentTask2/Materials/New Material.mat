@@ -8,7 +8,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: New Material
-  m_Shader: {fileID: 4800000, guid: 0170235d51d18ce4094316a29bceb577, type: 3}
+  m_Shader: {fileID: 4800000, guid: e394588eede3cf7469830e09efaf0447, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
@@ -20,6 +20,10 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _BumpMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _CircleMask:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
@@ -60,12 +64,15 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
-    - _BackgroundCutoff: 0.371
+    - _BackgroundCutoff: 0.282
+    - _BoundaryCutoff: 0.215
     - _BumpScale: 1
+    - _CircleCutoff: 0.374
     - _Cutoff: 0.5
     - _DetailNormalMapScale: 1
+    - _Dist: -0.173
     - _DstBlend: 0
-    - _ForegroundCutoff: 0.495
+    - _ForegroundCutoff: 0.448
     - _GlossMapScale: 1
     - _Glossiness: 0.5
     - _GlossyReflections: 1
@@ -73,7 +80,7 @@ Material:
     - _Mode: 0
     - _OcclusionStrength: 1
     - _Parallax: 0.02
-    - _Radius: 1.334
+    - _Radius: 0.858
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
     - _SrcBlend: 1
@@ -83,6 +90,8 @@ Material:
     - _radiusOffet: 8.3
     m_Colors:
     - _BackgroundColor: {r: 0, g: 0, b: 0, a: 1}
+    - _BoundaryColor: {r: 0, g: 0, b: 0, a: 1}
+    - _CircleColor: {r: 1, g: 1, b: 1, a: 1}
     - _Color: {r: 1, g: 0, b: 0, a: 0}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _ForegroundColor: {r: 1, g: 1, b: 1, a: 1}

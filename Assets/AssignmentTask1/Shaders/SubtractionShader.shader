@@ -14,14 +14,18 @@
 
 #include "UnityCG.cginc"
 
-			uniform sampler2D _MainTex;
-			uniform sampler2D _SecondTex;
+			uniform sampler2D _MainTex; //Redeclaring the Textures
+			uniform sampler2D _SecondTex; 
 
+			//UVs
 			struct Input
 			{
 				float uv_MainTex, uv_SecondTex;
 			};
 
+
+
+			//Getting the resultant subtract Textures
 			fixed4 resultantTexture(v2f_img i) : SV_Target{
 				return tex2D(_MainTex, i.uv) - tex2D(_SecondTex, i.uv);
 			}

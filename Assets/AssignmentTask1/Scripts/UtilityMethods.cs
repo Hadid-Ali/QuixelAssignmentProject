@@ -5,8 +5,10 @@ using UnityEngine;
 
 public delegate void SimpleDelegate();
 
-public class UtilityMethods : MonoBehaviour
+namespace QuixelTest.SubtractionShaderAssignment
 {
- 
+    public class UtilityMethods : MonoBehaviour
+    {
 
+    }
 }

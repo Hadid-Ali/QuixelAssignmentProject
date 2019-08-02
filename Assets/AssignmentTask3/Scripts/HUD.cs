@@ -3,20 +3,28 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class HUD : MonoBehaviour
+namespace QuixelTest.ExtrudeAssignment
 {
-    public static HUD instance;
-
-    public Slider lightSlider;
-
-    public void Toggle_BtnEvent()
+    public class HUD : MonoBehaviour
     {
-        if (BasicMeshOperations.instance)
-            BasicMeshOperations.instance.CreateCube();
-    }
+        public static HUD instance;
 
-    private void Awake()
-    {
-        instance = this;
+        public Slider lightSlider;
+
+        public void Toggle_BtnEvent()
+        {
+            if (BasicMeshOperations.instance)
+                BasicMeshOperations.instance.CreateCube();
+        }
+
+        public void LoadMenuScene()
+        {
+            UtilMethods.BackToMenu();
+        }
+
+        private void Awake()
+        {
+            instance = this;
+        }
     }
 }
