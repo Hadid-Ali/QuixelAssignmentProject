@@ -27,7 +27,11 @@
 
 			//Getting the resultant subtract Textures
 			fixed4 resultantTexture(v2f_img i) : SV_Target{
-				return tex2D(_MainTex, i.uv) - tex2D(_SecondTex, i.uv);
+				fixed4 A = tex2D(_MainTex, i.uv);
+			fixed4 B = tex2D(_SecondTex, i.uv);
+
+			return float4(B.rgb - A.rgb, min(B.a,A.a));
+				//return tex2D(_MainTex, i.uv) - tex2D(_SecondTex, i.uv);
 			}
 				ENDCG
 		}

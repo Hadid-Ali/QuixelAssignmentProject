@@ -33,10 +33,6 @@ namespace QuixelTest.SubtractionShaderAssignment
 
         private void Start()
         {
-#if Unity_Editor
-            UnityEditor.TextureImporterSettings ts = new UnityEditor.TextureImporterSettings();
-            ts.alphaIsTransparency = true;
-#endif
             this.textureLoader = this.GetComponent<XMLReader>();
 
             ///Adding Response to delegate that is called after textures loading
