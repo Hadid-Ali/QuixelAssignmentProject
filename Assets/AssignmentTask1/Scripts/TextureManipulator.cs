@@ -33,6 +33,10 @@ namespace QuixelTest.SubtractionShaderAssignment
 
         private void Start()
         {
+#if Unity_Editor
+            UnityEditor.TextureImporterSettings ts = new UnityEditor.TextureImporterSettings();
+            ts.alphaIsTransparency = true;
+#endif
             this.textureLoader = this.GetComponent<XMLReader>();
 
             ///Adding Response to delegate that is called after textures loading
@@ -78,9 +82,7 @@ namespace QuixelTest.SubtractionShaderAssignment
         {
             Renderer renderer = this.meshToApplyFrom.GetComponent<Renderer>();
             Material material = Instantiate(renderer.material);
-
             Graphics.Blit(material.mainTexture, ResultTexture, material);
-
             this.WriteTextureToDiskPath(ResultTexture, Application.dataPath + "\\AssignmentTask1\\Textures\\ResultantTexture\\Texture.png");
         }
 
@@ -93,6 +95,7 @@ namespace QuixelTest.SubtractionShaderAssignment
         {
             ///Mapping the resultant render texture on a simple 2d texture
             Texture2D resultantTexture = new Texture2D(texture.width, texture.height);
+            resultantTexture.alphaIsTransparency = true;
             resultantTexture.ReadPixels(new Rect(0, 0, resultantTexture.width, resultantTexture.height), 0, 0, false);
             resultantTexture.Apply();
 

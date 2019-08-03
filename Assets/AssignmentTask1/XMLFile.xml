@@ -1,9 +1,11 @@
 ﻿<Textures>
   <Texture> 
-    <path>\\AssignmentTask1\\Textures\\Texture1.jpg </path>
+    <path>\\AssignmentTask1\\Textures\\Texture1.png </path>
   </Texture>
 
   <Texture>
-    <path>\\AssignmentTask1\\Textures\\Texture2.jpg </path>
+    <path>\\AssignmentTask1\\Textures\\Texture2.png </path>
   </Texture>
 </Textures>
+
+
